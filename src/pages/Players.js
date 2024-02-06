@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, theme, Flex, Card, Select, Button, Form, Input, InputNumber } from 'antd';
+import { Layout, theme, Flex, Card, Select, Button, Form, Input, InputNumber, Space } from 'antd';
 import Sidemenu from '../components/Sidemenu';
 
 const { Header, Content } = Layout;
@@ -13,6 +13,7 @@ const Players = () => {
     } = theme.useToken();
 
     const [players, setPlayers] = useState(localStorage.getItem('PlayersExportedData') || null);
+    const [pals, setPals] = useState(localStorage.getItem('PalsExportedData') || null);
     const [selectedPlayer, setSelectedPlayer] = useState(null);
     const [value, setValue] = useState(null);
     // console.log("Players: ", players)
@@ -44,6 +45,10 @@ const Players = () => {
         console.log("Player: ", selectedPlayer)
     }
 
+    const getPlayerPals = (player) => {
+
+    }
+
     const getPropertyName = (item) => {
         for(var key in item) {
             if(item.hasOwnProperty(key)) {
@@ -73,7 +78,7 @@ const Players = () => {
                         margin: '0 16px',
                     }}
                 >
-                    <Card title="Search" style={{ width: '98%', marginTop: 24 }}>
+                    <Card title="Search" style={{ width: '99%', marginTop: 24 }}>
                         <Select
                             showSearch
                             // fieldNames={ label: 'name', value: 'id' }
@@ -97,104 +102,129 @@ const Players = () => {
                         </Button>
                     </Card>
                     { selectedPlayer && 
-                    <Card title="Player" style={{ width: '98%', marginTop: 24 }}>
-                        <Form
-                            // initialValues={ selectedPlayer?.content }
-                        >
-                            <Form.Item label="PalType" name="PalType">
+                    <Card title="Player" style={{ width: '99%', marginTop: 24 }}>
+                        <Form layout="inline">
+                        
+                            
+                            <Form.Item 
+                                label="PalType" 
+                                name="PalType" 
+                                className='playerForm'
+                                size="small" 
+                            >
                                 <Input 
-                                    defaultValue={selectedPlayer.content?.PalType}
-                                    value={selectedPlayer.content.PalType}
-                                    disabled
+                                    defaultValue={selectedPlayer.content?.PalType} 
+                                    size="small" 
                                 />
                             </Form.Item>
-
-                            <Form.Item label="PlayerID" name="PlayerID">
-                            <Input 
-                                defaultValue={selectedPlayer.content?.PlayerID}
-                                disabled
-                            />
-                            </Form.Item>
-
-                            <Form.Item label="InstanceID" name="InstanceID">
-                            <Input
-                                defaultValue={selectedPlayer.content?.InstanceID}
-                                disabled
-                            />
-                            </Form.Item>
-
-                            <Form.Item label="GroupID" name="GroupID">
-                            <Input />
-                            </Form.Item>
-
-                            <Form.Item label="Name" name="Name">
-                            <Input />
-                            </Form.Item>
-
-                            <Form.Item label="Level" name="Level">
-                            <InputNumber />
-                            </Form.Item>
-
-                            <Form.Item label="EXP" name="EXP">
-                            <InputNumber />
-                            </Form.Item>
-
-                            <Form.Item label="MaxHP" name="MaxHP">
-                            <InputNumber />
-                            </Form.Item>
-
-                            <Form.Item label="HP" name="HP">
-                            <InputNumber />
-                            </Form.Item>
-
-                            <Form.Item label="MaxShield" name="MaxShield">
-                            <InputNumber />
-                            </Form.Item>
-
-                            <Form.Item label="Shield" name="Shield">
-                            <InputNumber />
-                            </Form.Item>
-
-                            <Form.Item label="MaxStamina" name="MaxStamina">
-                            <InputNumber />
-                            </Form.Item>
-
-                            <Form.Item label="Sanity???" name="Sanity???">
-                            <InputNumber />
-                            </Form.Item>
-
-                            <Form.Item label="Stomach" name="Stomach">
-                            <InputNumber />
-                            </Form.Item>
-
-                            <Form.Item label="Support" name="Support">
-                            <InputNumber />
-                            </Form.Item>
-
-                            <Form.Item label="CraftSpeed" name="CraftSpeed">
-                            <InputNumber />
-                            </Form.Item>
-                            <Form.Item
-                                label="UsedStatusPoints"
+                
+                            <Form.Item 
+                                label="PlayerID" 
+                                name="PlayerID" 
+                                className='playerForm'
                             >
+                                <Input 
+                                    defaultValue={selectedPlayer.content?.PlayerID} 
+                                    size="small" 
+                                />
+                            </Form.Item>
+                
+                            <Form.Item 
+                                label="InstanceID" 
+                                name="InstanceID" className='playerForm'
+                            >
+                                <Input 
+                                    defaultValue={selectedPlayer.content?.InstanceID} 
+                                    size="small" 
+                                />
+                            </Form.Item>
+                
+                            <Form.Item 
+                                label="GroupID" 
+                                name="GroupID" 
+                                className='playerForm'
+                            >
+                                <Input 
+                                    defaultValue={selectedPlayer.content?.GroupID} 
+                                    size="small"     
+                                />
+                            </Form.Item>
+                
+                            <Form.Item 
+                                label="Name" 
+                                name="Name" 
+                                className='playerForm'
+                            >
+                                <Input 
+                                    defaultValue={selectedPlayer.content?.Name}
+                                    size="small" 
+                                />
+                            </Form.Item>
+                
+                            <Form.Item label="Level" name="Level" className='playerForm'>
+                                <InputNumber />
+                            </Form.Item>
+                
+                            <Form.Item label="EXP" name="EXP" className='playerForm'>
+                                <InputNumber />
+                            </Form.Item>
+                
+                            <Form.Item label="MaxHP" name="MaxHP" className='playerForm'>
+                                <InputNumber />
+                            </Form.Item>
+                
+                            <Form.Item label="HP" name="HP" className='playerForm'>
+                                <InputNumber />
+                            </Form.Item>
+                
+                            <Form.Item label="MaxShield" name="MaxShield" className='playerForm'>
+                                <InputNumber />
+                            </Form.Item>
+                
+                            <Form.Item label="Shield" name="Shield" className='playerForm'>
+                                <InputNumber />
+                            </Form.Item>
+                            
+                
+                            
+                            <Form.Item label="MaxStamina" name="MaxStamina" className='playerForm'>
+                                <InputNumber />
+                            </Form.Item>
+                
+                            <Form.Item label="Sanity???" name="Sanity???" className='playerForm'>
+                                <InputNumber />
+                            </Form.Item>
+                
+                            <Form.Item label="Stomach" name="Stomach" className='playerForm'>
+                                <InputNumber />
+                            </Form.Item>
+                
+                            <Form.Item label="Support" name="Support" className='playerForm'>
+                                <InputNumber />
+                            </Form.Item>
+                
+                            <Form.Item label="CraftSpeed" name="CraftSpeed" className='playerForm'>
+                                <InputNumber />
+                            </Form.Item>
+                
+                            <Form.Item label="UsedStatusPoints" name="UsedStatusPoints">
                                 {selectedPlayer?.content.UsedStatusPoints.map((item, index) => (
-                                    
-                                <React.Fragment key={index}>
-                                    <Form.Item label={`item[${index}] Value`} name={['item', index, 'Value']}>
-                                    <Input 
-                                        defaultValue={getPropertyName(item)}
-                                    />
+                                <Space key={index} style={{ maxWidth: '45%', border:'1px solid red'}}>
+                                    <Form.Item label={getPropertyName(item)} name={['item', index, 'Value']}>
+                                    <Input defaultValue={getPropertyName(item)} />
                                     </Form.Item>
-                                    <Form.Item label={`item[${index}] Count`} name={['item', index, 'Count']}>
+                                    <Form.Item label={`Count`} name={['item', index, 'Count']}>
                                     <InputNumber />
                                     </Form.Item>
-                                </React.Fragment>
+                                </Space>
                                 ))}
                             </Form.Item>
-
+                
                             <Form.Item label="VoiceID" name="VoiceID">
-                            <InputNumber />
+                                <InputNumber />
                             </Form.Item>
+                            
+                        
                         </Form>
                     </Card>
                     }

@@ -87,7 +87,6 @@ const Sidemenu = () => {
                 defaultOpenKeys={[]}
                 mode="inline"
                 theme="dark"
-                inlineCollapsed={collapsed}
                 onClick={(key) => handleMenuClick(key)}
                 items={items}
             />
