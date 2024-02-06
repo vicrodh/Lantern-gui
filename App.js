@@ -59,11 +59,6 @@ app.post('/upload', upload.single('file'), (req, res) => {
 
 app.post('/remove-data', (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
-    console.log("req.body: ", req.body)
-    // console.log("req", req)
-
-    
-    // console.log("req: ", req)
     const { filename } = req.body;
     if(!filename){
         return res.status(400).json({ status: 'error', error: 'Invalid file path' });
@@ -105,14 +100,13 @@ app.post('/export-data', (req, res) => {
 
     // Construir el comando para ejecutar Lantern.js con los argumentos
     const command = `node Lantern.js ExportPals ./SavedLevelFiles/${filename}`;
-
+    const resultData = []
     // Ejecutar el comando
     exec(command, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error: ${stderr}`);
             res.status(500).json({ error: stderr });
         } else {
-            console.log(`Resultado: ${stdout}`);
             if (stdout.includes("Pal data exported")) {
                 // Do something if the stdout contains "Pal data exported"
                 console.log("Pal data exported successfully");
@@ -135,15 +129,14 @@ app.post('/export-data', (req, res) => {
                     // Store the content of the file in a variable
                     const file_content = fs.readFileSync(relativePathToJsonFile, 'utf8');                 
                     // Create the player object
+                    const parsed_content = JSON.parse(file_content);
                     
                     const player = {
                         name: splitName,
                         file_name: relativePathToJsonFile,
                         player_id: playerID,
-                        content: JSON.parse(file_content),
+                        content: parsed_content,
                     };
-                    console.log("Content:", player.content);
-
                     // Add the player object to the players array
                     players.push(player);
                 });
@@ -158,29 +151,36 @@ app.post('/export-data', (req, res) => {
                     const palID = file.split('_').pop().split('.json')[0];
                     const relativePathToJsonFile = `./Save/PalData/Pal/${file}`;
                     const file_content = fs.readFileSync(relativePathToJsonFile, 'utf8');
+                    const parsed_content = JSON.parse(file_content);
                     const name = file.split('_').slice(-2, -1)[0];
+                    const order = file.split('_').slice(-3, -2)[0];
+                    const guild = file.split('_').slice(0, -3).join('_');
+
                     const pal = {
                         name: name,
                         file_name: relativePathToJsonFile,
                         pal_id: palID,
-                        content: JSON.parse(file_content),
+                        order: order,
+                        guild: guild,
+                        content: parsed_content,
+                        owner: parsed_content.OwnerID
                     };
                     pals.push(pal);
                 });
 
                 // Create the final JSON object
-                const jsonObject = {
+                const resultData = {
                     Players: players,
                     Pals: pals,
                 };
-
-                // Do something with the jsonObject
-                console.log(jsonObject);
+                res.status(200).json({ result: "done", palData: resultData });
+                console.log("Pal data returned successfully");
             } else {
                 // Do something if the stdout does not contain "Pal data exported"
+                res.status(500).json({ result: "error"});
                 console.log("Failed to export Pal data");
             }
-            res.json({ result: stdout });
+            
         }
     });
 });

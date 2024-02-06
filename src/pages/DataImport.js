@@ -12,7 +12,7 @@ const DataImport = () => {
     } = theme.useToken();
 
     const [uploadedData, setUploadedData] = useState(localStorage.getItem('levelData')||null);
-
+    const [isDataExported, setIsDataExported] = useState(localStorage.getItem('ExportedData') || false);
     
     const isValidJson = (jsonString) => {
         try {
@@ -48,7 +48,7 @@ const DataImport = () => {
                 minHeight: '100vh',
             }}
         >
-            <Sidemenu />
+            <Sidemenu uploadedData={uploadedData} onDataRemove={handleDataUpload} />
             <Layout>
                 <Header
                     style={{

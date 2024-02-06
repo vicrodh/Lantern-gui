@@ -29,6 +29,22 @@ const DataManager = ({ uploadedData, onDataRemove }) => {
                     content: 'Data exported successfully!',
                 });
                 setIsDataExported(true);
+                localStorage.setItem('ExportedData', true);
+
+                console.log("response.data: ", response.data)
+                console.log("response.data: ", JSON.stringify(response.data.palData))
+
+                if (response.data.palData) {
+                    if (response.data.palData.Players) {
+                        // Continue with your logic here
+                        localStorage.setItem('PlayersExportedData', JSON.stringify(response.data.palData.Players));
+                    }
+                    if (response.data.palData.Pals) {
+                        // Continue with your logic here
+                        localStorage.setItem('PalsExportedData', JSON.stringify(response.data.palData.Pals));
+                    }
+                }
+                
                 return true;
             } else {
                 Modal.error({
@@ -37,6 +53,7 @@ const DataManager = ({ uploadedData, onDataRemove }) => {
                 
                 });
                 localStorage.removeItem('ExportedData', true);
+                // localStorage.removeItem('PalExportedData');
                 setIsDataExported(false);
                 setLoadingExport(false);
                 return false;
